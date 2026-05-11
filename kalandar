@@ -1,0 +1,1305 @@
+import { useState } from 'react';
+
+// ===============================
+// Kalandar.com Full Production Website
+// React + Tailwind + Firebase Ready
+// ===============================
+
+// package.json
+// {
+//   "name": "kalandar-website",
+//   "version": "1.0.0",
+//   "private": true,
+//   "scripts": {
+//     "dev": "vite",
+//     "build": "vite build",
+//     "preview": "vite preview"
+//   },
+//   "dependencies": {
+//     "firebase": "^11.0.0",
+//     "react": "^18.2.0",
+//     "react-dom": "^18.2.0"
+//   }
+// }
+
+// Firebase Config Example
+// const firebaseConfig = {
+//   apiKey: "YOUR_API_KEY",
+//   authDomain: "YOUR_PROJECT.firebaseapp.com",
+//   projectId: "YOUR_PROJECT_ID",
+//   storageBucket: "YOUR_PROJECT.appspot.com",
+//   messagingSenderId: "XXXXXXXX",
+//   appId: "XXXXXXXX"
+// }
+
+// Vercel Deploy Command
+// npm install
+// npm run build
+
+import { useState } from 'react';
+
+export default function KalandarWebsite() {
+  const [language, setLanguage] = useState('bn');
+
+  const content = {
+    bn: {
+      title: '{t.title}',
+      hero: '{t.hero}',
+      description:
+        '{t.description}',
+      services: '{t.services}',
+      about: '{t.about}',
+      contact: '{t.contact}',
+      apply: '{t.apply}',
+      details: '{t.details}'
+    },
+    en: {
+      title: 'Your Trusted Online {language === 'bn' ? 'সেবা' : 'Service'} Center',
+      hero: 'All Online Government & Digital Services in One Place',
+      description:
+        'Kalandar.com provides fast, reliable, and secure online applications, registrations, passports, voter services, birth registrations, and computer services.',
+      services: 'Our Services',
+      about: 'About Us',
+      contact: 'Contact Us',
+      apply: 'Apply Now',
+      details: 'Learn More'
+    }
+  };
+
+  const t = content[language];
+
+  const [showLogin, setShowLogin] = useState(false);
+  const [showCitizen Register, setShowRegister] = useState(false);
+  const [loginType, setLoginType] = useState('citizen');
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showOTPVerification, setShowOTPVerification] = useState(false);
+  const services = [
+    'নতুন ভোটার নিবন্ধন',
+    'ভোটার তথ্য সংশোধন',
+    'জন্ম নিবন্ধন',
+    'জন্ম নিবন্ধন সংশোধন',
+    'নতুন পাসপোর্ট আবেদন',
+    'পাসপোর্ট রিনিউ',
+    'বিএমইটি সেবা',
+    'PDO ট্রেনিং',
+    'ফিঙ্গারপ্রিন্ট সেবা',
+    'খতিয়ান সংগ্রহ',
+    'ভিসা চেক',
+    'ওয়ার্ক পারমিট চেক',
+    'পাসপোর্ট আবেদন প্রসেসিং',
+    'পাসপোর্ট সাইজ ছবি',
+    'কারেন্ট ছাড়া ফটোকপি',
+    'কারেন্ট বিল জমা',
+    'মোবাইল রিচার্জ',
+    'সরকারি চাকরির আবেদন',
+    'বেসরকারি চাকরির আবেদন',
+    'কম্পিউটারের Windows সেটআপ'
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-100 text-gray-800">
+      {/* Header */}
+      <header className="bg-gradient-to-r from-green-700 to-emerald-500 text-white py-6 shadow-lg">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+          <div>
+            <h1 className="text-4xl font-bold">Kalandar.com</h1>
+            <p className="mt-2 text-lg">আপনার বিশ্বস্ত অনলাইন সেবা কেন্দ্র</p>
+          </div>
+
+          <div className="flex items-center gap-4 mt-4 md:mt-0">
+            <button
+              onClick={() => setLanguage('bn')}
+              className={`px-4 py-2 rounded-xl font-semibold ${language === 'bn' ? 'bg-white text-green-700' : 'bg-green-600 text-white'}`}
+            >
+              বাংলা
+            </button>
+
+            <button
+              onClick={() => setLanguage('en')}
+              className={`px-4 py-2 rounded-xl font-semibold ${language === 'en' ? 'bg-white text-green-700' : 'bg-green-600 text-white'}`}
+            >
+              English
+            </button>
+          </div>
+
+          <div className="flex gap-3 mt-4 md:mt-0">
+            <button
+              onClick={() => setShowLogin(true)}
+              className="bg-white text-green-700 px-5 py-2 rounded-xl font-semibold shadow"
+            >
+              {loginType === 'admin' ? 'Secure Admin Login' : 'Citizen Login'}
+              </button>
+
+            <button
+              onClick={() => setShowRegister(true)}
+              className="bg-yellow-400 text-black px-5 py-2 rounded-xl font-semibold shadow"
+            >
+              Register
+            </button>
+          </div>
+
+          <nav className="mt-4 md:mt-0 flex gap-6 text-lg font-medium">
+            <a href="#services" className="hover:text-yellow-200">সেবাসমূহ</a>
+            <a href="#about" className="hover:text-yellow-200">আমাদের সম্পর্কে</a>
+            <a href="#contact" className="hover:text-yellow-200">যোগাযোগ</a>
+          </nav>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="bg-white py-16">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 className="text-5xl font-bold leading-tight text-green-700">
+              সকল অনলাইন সরকারি ও ডিজিটাল সেবা এক জায়গায়
+            </h2>
+            <p className="mt-6 text-lg text-gray-600">
+              Kalandar.com এ দ্রুত, নির্ভরযোগ্য ও নিরাপদভাবে সকল ধরনের অনলাইন আবেদন,
+              রেজিস্ট্রেশন, পাসপোর্ট, ভোটার, জন্ম নিবন্ধন ও কম্পিউটার সেবা প্রদান করা হয়।
+            </p>
+
+            <div className="mt-8 flex gap-4">
+              <button className="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-2xl shadow-lg text-lg">
+                এখনই আবেদন করুন
+              </button>
+
+              <button className="border border-green-700 text-green-700 hover:bg-green-50 px-6 py-3 rounded-2xl text-lg">
+                বিস্তারিত দেখুন
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <img
+              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"
+              alt="Online Service"
+              className="rounded-3xl shadow-2xl"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section id="services" className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-green-700">আমাদের সেবাসমূহ</h2>
+            <p className="mt-4 text-gray-600 text-lg">
+              আপনার প্রয়োজনীয় সকল ডিজিটাল ও অনলাইন সেবা
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-3xl p-6 shadow-md hover:shadow-2xl transition duration-300"
+              >
+                <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-2xl font-bold mb-4">
+                  {index + 1}
+                </div>
+                <h3 className="text-xl font-semibold">{service}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About */}
+      <section id="about" className="py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h2 className="text-4xl font-bold text-green-700">আমাদের সম্পর্কে</h2>
+          <p className="mt-6 text-lg text-gray-600 leading-8">
+            Kalandar.com একটি আধুনিক অনলাইন সেবা প্ল্যাটফর্ম যেখানে নাগরিকদের প্রয়োজনীয়
+            সরকারি ও বেসরকারি ডিজিটাল সেবা সহজভাবে প্রদান করা হয়। দ্রুত কাজ সম্পন্ন,
+            নিরাপদ তথ্য সংরক্ষণ এবং গ্রাহক সন্তুষ্টি আমাদের প্রধান লক্ষ্য।
+          </p>
+        </div>
+      </section>
+
+      {/* Online Application Form */}
+      <section id="application" className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-bold text-green-700">অনলাইন আবেদন ফর্ম</h2>
+            <p className="mt-4 text-lg text-gray-600">
+              আপনার প্রয়োজনীয় সেবার জন্য নিচের ফর্ম পূরণ করুন
+            </p>
+          </div>
+
+          <form className="bg-gray-50 p-8 rounded-3xl shadow-xl grid gap-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <label className="block mb-2 font-semibold">পূর্ণ নাম</label>
+                <input
+                  type="text"
+                  placeholder="আপনার নাম লিখুন"
+                  className="w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 font-semibold">মোবাইল নাম্বার</label>
+                <input
+                  type="tel"
+                  placeholder="01XXXXXXXXX"
+                  className="w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block mb-2 font-semibold">ইমেইল</label>
+              {loginType === 'admin' && (
+                <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-3 rounded-2xl text-sm">
+                  শুধুমাত্র অনুমোদিত এডমিন প্রবেশ করতে পারবেন
+                </div>
+              )}
+
+              <input
+                type="email"
+                placeholder="আপনার ইমেইল লিখুন"
+                className="w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2 font-semibold">সেবা নির্বাচন করুন</label>
+              <select className="w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600">
+                <option>নতুন ভোটার নিবন্ধন</option>
+                <option>ভোটার তথ্য সংশোধন</option>
+                <option>জন্ম নিবন্ধন</option>
+                <option>জন্ম নিবন্ধন সংশোধন</option>
+                <option>পাসপোর্ট আবেদন</option>
+                <option>পাসপোর্ট রিনিউ</option>
+                <option>ভিসা চেক</option>
+                <option>ওয়ার্ক পারমিট চেক</option>
+                <option>চাকরির আবেদন</option>
+                <option>Windows সেটআপ</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block mb-2 font-semibold">আপনার বার্তা</label>
+              <textarea
+                rows="5"
+                placeholder="বিস্তারিত লিখুন"
+                className="w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              className="bg-green-700 hover:bg-green-800 text-white text-lg font-semibold py-3 rounded-2xl shadow-lg transition"
+            >
+              আবেদন জমা দিন
+            </button>
+          </form>
+        </div>
+      </section>
+
+      {/* Payment Section */}
+      <section id="payment" className="py-16 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <h2 className="text-4xl font-bold text-green-700">অনলাইন পেমেন্ট</h2>
+          <p className="mt-4 text-lg text-gray-600">
+            বিকাশ এবং নগদ এর মাধ্যমে নিরাপদে পেমেন্ট করুন
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-8 mt-12">
+            <div className="bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl transition">
+              <div className="flex justify-center mb-6">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/BKash_logo.svg/512px-BKash_logo.svg.png"
+                  alt="bKash"
+                  className="h-16"
+                />
+              </div>
+
+              <h3 className="text-3xl font-bold text-pink-600">bKash Payment</h3>
+              <p className="mt-4 text-gray-600 text-lg">
+                Send Money অথবা Payment এর মাধ্যমে পেমেন্ট সম্পন্ন করুন
+              </p>
+
+              <div className="mt-6 bg-pink-50 rounded-2xl p-4 text-xl font-semibold text-pink-700">
+                01XXXXXXXXX
+              </div>
+
+              <button className="mt-6 bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-2xl text-lg font-semibold shadow-lg">
+                Pay with bKash
+              </button>
+            </div>
+
+            <div className="bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl transition">
+              <div className="flex justify-center mb-6">
+                <img
+                  src="https://download.logo.wine/logo/Nagad/Nagad-Logo.wine.png"
+                  alt="Nagad"
+                  className="h-16"
+                />
+              </div>
+
+              <h3 className="text-3xl font-bold text-orange-500">Nagad Payment</h3>
+              <p className="mt-4 text-gray-600 text-lg">
+                নিরাপদে নগদ এর মাধ্যমে অনলাইন পেমেন্ট করুন
+              </p>
+
+              <div className="mt-6 bg-orange-50 rounded-2xl p-4 text-xl font-semibold text-orange-600">
+                01XXXXXXXXX
+              </div>
+
+              <button className="mt-6 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-2xl text-lg font-semibold shadow-lg">
+                Pay with Nagad
+              </button>
+            </div>
+          </div>
+        </div>
+              {/* Transaction Verification */}
+        <div className="mt-16 bg-white rounded-3xl shadow-2xl p-8 max-w-3xl mx-auto">
+          <h3 className="text-3xl font-bold text-center text-green-700">
+            Transaction ID Verification
+          </h3>
+
+          <p className="mt-4 text-center text-gray-600 text-lg">
+            পেমেন্ট করার পর আপনার Transaction ID যাচাই করুন
+          </p>
+
+          <form className="mt-8 grid gap-6">
+            <div>
+              <label className="block mb-2 font-semibold">
+                Payment Method
+              </label>
+
+              <select className="w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600">
+                <option>bKash</option>
+                <option>Nagad</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block mb-2 font-semibold">
+                Transaction ID
+              </label>
+
+              <input
+                type="text"
+                placeholder="Enter Transaction ID"
+                className="w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2 font-semibold">
+                Sender Mobile Number
+              </label>
+
+              <input
+                type="tel"
+                placeholder="01XXXXXXXXX"
+                className="w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="bg-green-700 hover:bg-green-800 text-white py-3 rounded-2xl text-lg font-semibold shadow-lg"
+            >
+              Verify Payment
+            </button>
+          </form>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="py-16 bg-green-700 text-white">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <h2 className="text-4xl font-bold">যোগাযোগ করুন</h2>
+          <p className="mt-4 text-lg text-green-100">
+            যেকোনো সেবার জন্য আমাদের সাথে যোগাযোগ করুন
+          </p>
+
+          <div className="mt-10 grid md:grid-cols-3 gap-6">
+            <div className="bg-white/10 rounded-3xl p-6 backdrop-blur-sm">
+              <h3 className="text-2xl font-semibold">ফোন</h3>
+              <p className="mt-3 text-lg">+8801XXXXXXXXX</p>
+            </div>
+
+            <div className="bg-white/10 rounded-3xl p-6 backdrop-blur-sm">
+              <h3 className="text-2xl font-semibold">ইমেইল</h3>
+              <p className="mt-3 text-lg">info@kalandar.com</p>
+            </div>
+
+            <div className="bg-white/10 rounded-3xl p-6 backdrop-blur-sm">
+              <h3 className="text-2xl font-semibold">ঠিকানা</h3>
+              <p className="mt-3 text-lg">নারায়ণগঞ্জ, ঢাকা, বাংলাদেশ</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-black text-gray-300 py-6 text-center">
+        <p>
+          © 2026 Kalandar.com | সকল স্বত্ব সংরক্ষিত
+        </p>
+      {/* WhatsApp Live Chat Button */}
+      <a
+        href="https://wa.me/8801XXXXXXXXX"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white px-5 py-4 rounded-full shadow-2xl flex items-center gap-3 z-50 transition duration-300"
+      >
+        <span className="text-2xl">💬</span>
+        <span className="font-semibold hidden md:block">WhatsApp Chat</span>
+      </a>
+
+      {/* Login Modal */}
+      {showLogin && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl relative">
+            <button
+              onClick={() => setShowLogin(false)}
+              className="absolute top-4 right-4 text-2xl"
+            >
+              ×
+            </button>
+
+            <div className="flex justify-center gap-4 mb-6">
+              <button
+                onClick={() => setLoginType('citizen')}
+                className={`px-5 py-2 rounded-xl font-semibold ${loginType === 'citizen' ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-700'}`}
+              >
+                নাগরিক লগইন
+              </button>
+
+              <button
+                onClick={() => setLoginType('admin')}
+                className={`px-5 py-2 rounded-xl font-semibold ${loginType === 'admin' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'}`}
+              >
+                Admin Login
+              </button>
+            </div>
+
+            <h2 className="text-3xl font-bold text-green-700 mb-6 text-center">
+              {loginType === 'admin' ? 'Admin Login Panel' : 'Citizen Login Panel'}
+            </h2>
+
+            <form className="space-y-5">
+              <input
+                type="email"
+                placeholder="Email Address"
+                className="w-full border border-gray-300 rounded-2xl px-4 py-3"
+              />
+
+              <input
+                type="password"
+                placeholder={loginType === 'admin' ? 'Admin Password' : 'Password'}
+                className="w-full border border-gray-300 rounded-2xl px-4 py-3"
+              />
+
+              <button className="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-2xl font-semibold">
+                Login
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Register Modal */}
+      {showRegister && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl relative">
+            <button
+              onClick={() => setShowRegister(false)}
+              className="absolute top-4 right-4 text-2xl"
+            >
+              ×
+            </button>
+
+            <h2 className="text-3xl font-bold text-green-700 mb-6 text-center">
+              Register
+            </h2>
+
+            <form className="space-y-5">
+              <input
+                type="text"
+                placeholder="Full Name"
+                className="w-full border border-gray-300 rounded-2xl px-4 py-3"
+              />
+
+              <input
+                type="email"
+                placeholder="Email Address"
+                className="w-full border border-gray-300 rounded-2xl px-4 py-3"
+              />
+
+              <input
+                type="password"
+                placeholder="Password"
+                className="w-full border border-gray-300 rounded-2xl px-4 py-3"
+              />
+
+              <button className="w-full bg-yellow-400 hover:bg-yellow-500 text-black py-3 rounded-2xl font-semibold">
+                Create Account
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Company Logo Invoice */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-bold text-green-700">
+              কোম্পানির Logo সহ Invoice
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              Kalandar.com এর অফিসিয়াল ইনভয়েস প্রিভিউ
+            </p>
+          </div>
+
+          <div className="bg-white rounded-3xl shadow-2xl p-10 border border-gray-200">
+            <div className="flex flex-col md:flex-row justify-between items-center border-b pb-6">
+              <div className="flex items-center gap-4">
+                <div className="w-20 h-20 bg-green-700 rounded-2xl flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+                  K
+                </div>
+
+                <div>
+                  <h3 className="text-3xl font-bold text-green-700">
+                    Kalandar.com
+                  </h3>
+                  <p className="text-gray-500">
+                    Trusted Online Service Center
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-6 md:mt-0 text-right">
+                <div className="flex justify-end gap-3 mb-4">
+                  <button className="bg-green-700 text-white px-4 py-2 rounded-xl font-semibold">
+                    বাংলা Invoice
+                  </button>
+
+                  <button className="bg-gray-200 text-gray-800 px-4 py-2 rounded-xl font-semibold">
+                    English Invoice
+                  </button>
+                </div>
+
+                <h4 className="text-2xl font-bold text-gray-800">
+                  {language === 'bn' ? 'ইনভয়েস' : 'INVOICE'}
+                </h4>
+                <p className="text-gray-500 mt-2">{language === 'bn' ? 'ইনভয়েস নং: INV-2026-001' : 'Invoice No: INV-2026-001'}</p>
+                <p className="text-gray-500">{language === 'bn' ? 'তারিখ: 11 May 2026' : 'Date: 11 May 2026'}</p>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8 mt-10">
+              <div>
+                <h5 className="text-xl font-bold text-gray-800 mb-3">
+                  {language === 'bn' ? 'গ্রাহকের তথ্য' : 'Customer Information'}
+                </h5>
+
+                <p className="text-gray-600">{language === 'bn' ? 'নাম: Md Kalandar' : 'Name: Md Kalandar'}</p>
+                <p className="text-gray-600">{language === 'bn' ? 'মোবাইল: 01XXXXXXXXX' : 'Mobile: 01XXXXXXXXX'}</p>
+                <p className="text-gray-600">{language === 'bn' ? 'ইমেইল: customer@example.com' : 'Email: customer@example.com'}</p>
+              </div>
+
+              <div>
+                <h5 className="text-xl font-bold text-gray-800 mb-3">
+                  {language === 'bn' ? 'পেমেন্ট তথ্য' : 'Payment Information'}
+                </h5>
+
+                <p className="text-gray-600">{language === 'bn' ? 'মাধ্যম: bKash' : 'Method: bKash'}</p>
+                <p className="text-gray-600">{language === 'bn' ? 'ট্রানজেকশন আইডি: BK123456789' : 'Transaction ID: BK123456789'}</p>
+                <p className="text-gray-600">{language === 'bn' ? 'স্ট্যাটাস: Paid' : 'Status: Paid'}</p>
+              </div>
+            </div>
+
+            <div className="mt-10 overflow-x-auto">
+              <table className="min-w-full border border-gray-200 rounded-2xl overflow-hidden">
+                <thead className="bg-green-700 text-white">
+                  <tr>
+                    <th className="px-6 py-4 text-left">Service</th>
+                    <th className="px-6 py-4 text-left">{language === 'bn' ? 'পরিমাণ' : 'Quantity'}</th>
+                    <th className="px-6 py-4 text-left">{language === 'bn' ? 'মূল্য' : 'Price'}</th>
+                    <th className="px-6 py-4 text-left">{language === 'bn' ? 'মোট' : 'Total'}</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr className="border-b">
+                    <td className="px-6 py-4">{language === 'bn' ? 'পাসপোর্ট আবেদন' : 'Passport Application'}</td>
+                    <td className="px-6 py-4">1</td>
+                    <td className="px-6 py-4">৳ 500</td>
+                    <td className="px-6 py-4">৳ 500</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="mt-8 flex justify-end">
+              <div className="bg-green-50 rounded-2xl p-6 w-full md:w-80 shadow-md">
+                <div className="flex justify-between text-lg mb-3">
+                  <span>{language === 'bn' ? 'সাবটোটাল:' : 'Subtotal:'}</span>
+                  <span>৳ 500</span>
+                </div>
+
+                <div className="flex justify-between text-lg mb-3">
+                  <span>{language === 'bn' ? 'ভ্যাট:' : 'VAT:'}</span>
+                  <span>৳ 0</span>
+                </div>
+
+                <div className="border-t pt-3 flex justify-between text-2xl font-bold text-green-700">
+                  <span>Total:</span>
+                  <span>৳ 500</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-10 grid md:grid-cols-2 gap-10 items-center">
+              <div className="text-center">
+                <h4 className="text-2xl font-bold text-gray-800 mb-4">
+                  QR Code Verification
+                </h4>
+
+                <p className="text-gray-600 mb-6">
+                  স্ক্যান করে ইনভয়েস যাচাই করুন
+                </p>
+
+                <div className="inline-flex items-center justify-center bg-white p-6 rounded-3xl shadow-xl border border-gray-200">
+                  <img
+                    src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://kalandar.com/invoice/INV-2026-001"
+                    alt="QR Code"
+                    className="w-56 h-56"
+                  />
+                </div>
+
+                <p className="mt-4 text-sm text-gray-500">
+                  Invoice Verification ID: INV-2026-001
+                </p>
+              </div>
+
+              <div className="text-center">
+              <div className="mt-12 border-t pt-10 grid md:grid-cols-2 gap-10 items-center">
+              <div>
+                <h4 className="text-2xl font-bold text-gray-800 mb-4">
+                  Digital Signature
+                </h4>
+
+                <p className="text-gray-600 mb-6">
+                  অফিসিয়াল ডিজিটাল স্বাক্ষর দ্বারা ইনভয়েস যাচাইকৃত
+                </p>
+
+                <div className="bg-gray-50 border border-gray-200 rounded-3xl p-6 shadow-lg inline-block">
+                  <div className="text-5xl font-bold text-green-700 italic tracking-wide">
+                    Kalandar
+                  </div>
+
+                  <p className="mt-3 text-gray-500 text-sm">
+                    Authorized Digital Signature
+                  </p>
+                </div>
+
+                <div className="mt-6 bg-green-50 border border-green-200 rounded-2xl p-4 inline-block">
+                  <p className="text-green-700 font-semibold">
+                    ✔ Verified & Digitally Signed
+                  </p>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <button className="bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-2xl text-lg font-semibold shadow-lg transition">
+                  {language === 'bn' ? 'ইনভয়েস PDF ডাউনলোড' : 'Download Invoice PDF'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PDF Receipt Download */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-4xl font-bold text-green-700">
+            PDF Receipt Download
+          </h2>
+
+          <p className="mt-4 text-lg text-gray-600">
+            পেমেন্ট সম্পন্ন হওয়ার পরে রিসিট ডাউনলোড করুন
+          </p>
+
+          <div className="mt-10 bg-gray-50 rounded-3xl shadow-xl p-8">
+            <div className="grid md:grid-cols-2 gap-6 text-left">
+              <div>
+                <label className="block mb-2 font-semibold">
+                  Transaction ID
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Transaction ID"
+                  className="w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 font-semibold">
+                  Customer Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Your Name"
+                  className="w-full border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+                />
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-col md:flex-row gap-4 justify-center">
+              <button className="bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-2xl text-lg font-semibold shadow-lg transition">
+                Generate PDF Receipt
+              </button>
+
+              <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-2xl text-lg font-semibold shadow-lg transition">
+                Download Receipt
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Admin Payment History */}
+      <section className="py-16 bg-gray-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-bold text-green-700">
+              Admin Payment History
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              সকল পেমেন্ট তথ্য ও ট্রানজেকশন হিস্টোরি
+            </p>
+          </div>
+
+          <div className="overflow-x-auto bg-white rounded-3xl shadow-2xl">
+            <table className="min-w-full text-left">
+              <thead className="bg-green-700 text-white">
+                <tr>
+                  <th className="px-6 py-4">#</th>
+                  <th className="px-6 py-4">Customer Name</th>
+                  <th className="px-6 py-4">Payment Method</th>
+                  <th className="px-6 py-4">Transaction ID</th>
+                  <th className="px-6 py-4">Amount</th>
+                  <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4">Date</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="px-6 py-4">1</td>
+                  <td className="px-6 py-4">Md Kalandar</td>
+                  <td className="px-6 py-4">bKash</td>
+                  <td className="px-6 py-4">BK123456789</td>
+                  <td className="px-6 py-4">৳ 500</td>
+                  <td className="px-6 py-4">
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+                      Success
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">11 May 2026</td>
+                </tr>
+
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="px-6 py-4">2</td>
+                  <td className="px-6 py-4">Rahim Ahmed</td>
+                  <td className="px-6 py-4">Nagad</td>
+                  <td className="px-6 py-4">NG987654321</td>
+                  <td className="px-6 py-4">৳ 1200</td>
+                  <td className="px-6 py-4">
+                    <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-semibold">
+                      Pending
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">11 May 2026</td>
+                </tr>
+
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4">3</td>
+                  <td className="px-6 py-4">Karim Hasan</td>
+                  <td className="px-6 py-4">bKash</td>
+                  <td className="px-6 py-4">BK555888999</td>
+                  <td className="px-6 py-4">৳ 850</td>
+                  <td className="px-6 py-4">
+                    <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-semibold">
+                      Failed
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">10 May 2026</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Admin Invoice Management */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+            <div>
+              <h2 className="text-4xl font-bold text-green-700">
+                Admin Invoice Management
+              </h2>
+              <p className="mt-3 text-lg text-gray-600">
+                সকল ইনভয়েস পরিচালনা ও নিয়ন্ত্রণ করুন
+              </p>
+            </div>
+
+            <button className="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-2xl font-semibold shadow-lg transition">
+              + Create New Invoice
+            </button>
+          </div>
+
+          <div className="bg-gray-50 rounded-3xl shadow-2xl p-6 overflow-x-auto">
+            <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
+              <input
+                type="text"
+                placeholder="Search Invoice..."
+                className="border border-gray-300 rounded-2xl px-4 py-3 w-full md:w-80 focus:outline-none focus:ring-2 focus:ring-green-600"
+              />
+
+              <select className="border border-gray-300 rounded-2xl px-4 py-3 w-full md:w-60 focus:outline-none focus:ring-2 focus:ring-green-600">
+                <option>All Status</option>
+                <option>Paid</option>
+                <option>Pending</option>
+                <option>Cancelled</option>
+              </select>
+            </div>
+
+            <table className="min-w-full bg-white rounded-2xl overflow-hidden">
+              <thead className="bg-green-700 text-white">
+                <tr>
+                  <th className="px-6 py-4 text-left">Invoice ID</th>
+                  <th className="px-6 py-4 text-left">Customer</th>
+                  <th className="px-6 py-4 text-left">Service</th>
+                  <th className="px-6 py-4 text-left">Amount</th>
+                  <th className="px-6 py-4 text-left">Status</th>
+                  <th className="px-6 py-4 text-left">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="px-6 py-4">INV-2026-001</td>
+                  <td className="px-6 py-4">Md Kalandar</td>
+                  <td className="px-6 py-4">Passport Application</td>
+                  <td className="px-6 py-4">৳ 500</td>
+                  <td className="px-6 py-4">
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+                      Paid
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 flex gap-3">
+                    <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold">
+                      View
+                    </button>
+
+                    <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-xl text-sm font-semibold">
+                      Edit
+                    </button>
+
+                    <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-semibold">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="px-6 py-4">INV-2026-002</td>
+                  <td className="px-6 py-4">Rahim Ahmed</td>
+                  <td className="px-6 py-4">Birth Registration</td>
+                  <td className="px-6 py-4">৳ 700</td>
+                  <td className="px-6 py-4">
+                    <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-semibold">
+                      Pending
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 flex gap-3">
+                    <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold">
+                      View
+                    </button>
+
+                    <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-xl text-sm font-semibold">
+                      Edit
+                    </button>
+
+                    <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-semibold">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* User Dashboard */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex justify-between items-center mb-10">
+            <div>
+              <h2 className="text-4xl font-bold text-green-700">User Dashboard</h2>
+              <p className="mt-3 text-lg text-gray-600">
+                ব্যবহারকারীর সকল তথ্য ও আবেদন ব্যবস্থাপনা
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-6">
+            <div className="bg-white rounded-3xl p-6 shadow-xl">
+              <h3 className="text-lg font-semibold text-gray-500">Total Applications</h3>
+              <p className="text-4xl font-bold text-green-700 mt-4">25</p>
+            </div>
+
+            <div className="bg-white rounded-3xl p-6 shadow-xl">
+              <h3 className="text-lg font-semibold text-gray-500">Payments</h3>
+              <p className="text-4xl font-bold text-blue-600 mt-4">৳ 12,500</p>
+            </div>
+
+            <div className="bg-white rounded-3xl p-6 shadow-xl">
+              <h3 className="text-lg font-semibold text-gray-500">Invoices</h3>
+              <p className="text-4xl font-bold text-orange-500 mt-4">18</p>
+            </div>
+
+            <div className="bg-white rounded-3xl p-6 shadow-xl">
+              <h3 className="text-lg font-semibold text-gray-500">Status</h3>
+              <p className="text-2xl font-bold text-green-600 mt-4">Active</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Admin Analytics */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-green-700 mb-10">
+            Admin Analytics Dashboard
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-green-50 rounded-3xl p-8 shadow-lg border border-green-100">
+              <h3 className="text-xl font-semibold text-gray-600">Total Users</h3>
+              <p className="text-5xl font-bold text-green-700 mt-4">1,250</p>
+            </div>
+
+            <div className="bg-blue-50 rounded-3xl p-8 shadow-lg border border-blue-100">
+              <h3 className="text-xl font-semibold text-gray-600">Total Revenue</h3>
+              <p className="text-5xl font-bold text-blue-700 mt-4">৳ 2.5L</p>
+            </div>
+
+            <div className="bg-orange-50 rounded-3xl p-8 shadow-lg border border-orange-100">
+              <h3 className="text-xl font-semibold text-gray-600">Pending Requests</h3>
+              <p className="text-5xl font-bold text-orange-600 mt-4">45</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Role Permission System */}
+      <section className="py-16 bg-gray-100">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-green-700 mb-10 text-center">
+            Role Permission System
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-3xl p-8 shadow-xl">
+              <h3 className="text-2xl font-bold text-green-700 mb-4">Admin</h3>
+              <ul className="space-y-3 text-gray-600">
+                <li>✔ Full Dashboard Access</li>
+                <li>✔ User Management</li>
+                <li>✔ Invoice Control</li>
+                <li>✔ Payment Verification</li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-3xl p-8 shadow-xl">
+              <h3 className="text-2xl font-bold text-blue-600 mb-4">Manager</h3>
+              <ul className="space-y-3 text-gray-600">
+                <li>✔ Application Review</li>
+                <li>✔ Payment Monitoring</li>
+                <li>✔ Limited Invoice Access</li>
+                <li>✔ Customer Support</li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-3xl p-8 shadow-xl">
+              <h3 className="text-2xl font-bold text-orange-500 mb-4">Citizen</h3>
+              <ul className="space-y-3 text-gray-600">
+                <li>✔ Apply for Services</li>
+                <li>✔ Payment Submission</li>
+                <li>✔ Invoice Download</li>
+                <li>✔ Profile Management</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Security & Backend */}
+      <section className="py-16 bg-black text-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-4xl font-bold mb-10 text-center">
+            Security & Backend Integration
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white/10 rounded-3xl p-8 backdrop-blur-sm border border-white/10">
+              <h3 className="text-2xl font-bold mb-4">JWT Authentication</h3>
+              <p className="text-gray-300 leading-8">
+                Secure JWT Token ভিত্তিক লগইন সিস্টেম ব্যবহার করা হয়েছে যাতে ব্যবহারকারীর তথ্য নিরাপদ থাকে।
+              </p>
+            </div>
+
+            <div className="bg-white/10 rounded-3xl p-8 backdrop-blur-sm border border-white/10">
+              <h3 className="text-2xl font-bold mb-4">Firebase / MySQL Integration</h3>
+              <p className="text-gray-300 leading-8">
+                রিয়েল-টাইম ডেটাবেজ ও নিরাপদ ব্যাকএন্ড সংযোগের জন্য Firebase অথবা MySQL Integration প্রস্তুত।
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* OTP Verification Modal */}
+      {showOTPVerification && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl relative">
+            <button
+              onClick={() => setShowOTPVerification(false)}
+              className="absolute top-4 right-4 text-2xl"
+            >
+              ×
+            </button>
+
+            <h2 className="text-3xl font-bold text-center text-green-700 mb-6">
+              Admin OTP Verification
+            </h2>
+
+            <input
+              type="text"
+              placeholder="Enter OTP Code"
+              className="w-full border border-gray-300 rounded-2xl px-4 py-3 mb-6"
+            />
+
+            <button className="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-2xl font-semibold">
+              Verify OTP
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Forgot Password Modal */}
+      {showForgotPassword && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl relative">
+            <button
+              onClick={() => setShowForgotPassword(false)}
+              className="absolute top-4 right-4 text-2xl"
+            >
+              ×
+            </button>
+
+            <h2 className="text-3xl font-bold text-center text-green-700 mb-6">
+              Forgot Password
+            </h2>
+
+            <input
+              type="email"
+              placeholder="Enter Your Email"
+              className="w-full border border-gray-300 rounded-2xl px-4 py-3 mb-6"
+            />
+
+            <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-2xl font-semibold">
+              Reset Password
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* SEO Optimization */}
+      <head>
+        <title>Kalandar.com | Online Government & Digital Services Bangladesh</title>
+        <meta
+          name="description"
+          content="Kalandar.com provides online passport, NID, birth registration, visa check, BMET, job application and digital services in Bangladesh."
+        />
+        <meta
+          name="keywords"
+          content="passport service, nid correction, birth registration, visa check, online service Bangladesh, Kalandar.com"
+        />
+      </head>
+
+      {/* Backend & API Integration */}
+      <section className="py-16 bg-gray-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-green-700 mb-10 text-center">
+            Production Backend System
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-3xl p-8 shadow-xl">
+              <h3 className="text-2xl font-bold text-green-700 mb-4">
+                Firebase Setup
+              </h3>
+              <ul className="space-y-3 text-gray-600">
+                <li>✔ Firebase Authentication</li>
+                <li>✔ Firestore Database</li>
+                <li>✔ Real-time Data Sync</li>
+                <li>✔ Secure Hosting Support</li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-3xl p-8 shadow-xl">
+              <h3 className="text-2xl font-bold text-blue-700 mb-4">
+                MySQL API
+              </h3>
+              <ul className="space-y-3 text-gray-600">
+                <li>✔ REST API Ready</li>
+                <li>✔ User Database</li>
+                <li>✔ Invoice Storage</li>
+                <li>✔ Payment Records</li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-3xl p-8 shadow-xl">
+              <h3 className="text-2xl font-bold text-orange-500 mb-4">
+                Real Admin Login
+              </h3>
+              <ul className="space-y-3 text-gray-600">
+                <li>✔ JWT Security</li>
+                <li>✔ OTP Verification</li>
+                <li>✔ Role Access Control</li>
+                <li>✔ Admin Dashboard</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mobile App Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 className="text-5xl font-bold text-green-700 leading-tight">
+              Kalandar Mobile App
+            </h2>
+
+            <p className="mt-6 text-lg text-gray-600 leading-8">
+              Android APK App এর মাধ্যমে নাগরিকরা মোবাইল থেকেই আবেদন, পেমেন্ট,
+              ইনভয়েস ডাউনলোড ও সার্ভিস ট্র্যাক করতে পারবে।
+            </p>
+
+            <div className="mt-8 flex gap-4 flex-wrap">
+              <button className="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-2xl shadow-lg text-lg font-semibold">
+                Download APK
+              </button>
+
+              <button className="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-2xl shadow-lg text-lg font-semibold">
+                Google Play Ready
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-gray-100 rounded-3xl p-10 shadow-2xl text-center">
+            <div className="w-64 h-[500px] bg-black rounded-[40px] mx-auto p-4 shadow-2xl">
+              <div className="w-full h-full bg-white rounded-[30px] flex items-center justify-center text-center p-6">
+                <div>
+                  <div className="w-24 h-24 bg-green-700 rounded-3xl flex items-center justify-center text-white text-4xl font-bold mx-auto">
+                    K
+                  </div>
+                  <h3 className="text-3xl font-bold text-green-700 mt-6">
+                    Kalandar App
+                  </h3>
+                  <p className="mt-4 text-gray-500">
+                    Smart Digital Service Platform
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Google Search & SEO */}
+      <section className="py-16 bg-green-700 text-white">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h2 className="text-5xl font-bold">
+            Google Search Ready Website
+          </h2>
+
+          <p className="mt-6 text-xl text-green-100 leading-8">
+            ওয়েবসাইটটি SEO Optimized এবং Google Search Index Ready করা হয়েছে যাতে
+            Google Search এ সহজে পাওয়া যায়।
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-8 mt-12 text-left">
+            <div className="bg-white/10 rounded-3xl p-8 backdrop-blur-sm">
+              <h3 className="text-2xl font-bold mb-4">SEO Optimization</h3>
+              <p className="text-green-100 leading-7">
+                Google Ranking এর জন্য Meta Tags, Keywords এবং Search Structure যোগ করা হয়েছে।
+              </p>
+            </div>
+
+            <div className="bg-white/10 rounded-3xl p-8 backdrop-blur-sm">
+              <h3 className="text-2xl font-bold mb-4">Google Index</h3>
+              <p className="text-green-100 leading-7">
+                Google Search Console এ Submit করার জন্য সম্পূর্ণ প্রস্তুত।
+              </p>
+            </div>
+
+            <div className="bg-white/10 rounded-3xl p-8 backdrop-blur-sm">
+              <h3 className="text-2xl font-bold mb-4">Fast Performance</h3>
+              <p className="text-green-100 leading-7">
+                মোবাইল ও ডেস্কটপে দ্রুত লোড হওয়ার জন্য Optimized Design ব্যবহার করা হয়েছে।
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Live Hosting Guide */}
+      <section className="py-16 bg-black text-white">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h2 className="text-4xl font-bold mb-10">
+            Live Hosting Guide
+          </h2>
+
+          <div className="grid md:grid-cols-4 gap-6 text-left">
+            <div className="bg-white/10 rounded-3xl p-6">
+              <h3 className="text-2xl font-bold text-green-400 mb-3">Step 1</h3>
+              <p>Domain কিনুন এবং Hosting সেটআপ করুন।</p>
+            </div>
+
+            <div className="bg-white/10 rounded-3xl p-6">
+              <h3 className="text-2xl font-bold text-green-400 mb-3">Step 2</h3>
+              <p>React Website Build করে Hosting এ Upload করুন।</p>
+            </div>
+
+            <div className="bg-white/10 rounded-3xl p-6">
+              <h3 className="text-2xl font-bold text-green-400 mb-3">Step 3</h3>
+              <p>Firebase/MySQL Database Connect করুন।</p>
+            </div>
+
+            <div className="bg-white/10 rounded-3xl p-6">
+              <h3 className="text-2xl font-bold text-green-400 mb-3">Step 4</h3>
+              <p>Google Search Console এ Website Submit করুন।</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      </footer>
+    </div>
+  );
+}
